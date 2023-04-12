@@ -73,7 +73,11 @@ def calculate_log_return(df: pd.DataFrame, column_names=None) -> pd.DataFrame:
     return df_ret
 
 
-def test_setup():
+def retrieve_data() -> pd.DataFrame:
+    """
+    retrieve data from given directory
+    :return: df containing return of the specified price column
+    """
     curr_dir = os.getcwd()
     home_dir = os.path.dirname(curr_dir)
     datasets_dir = home_dir + '\\Datasets'
@@ -88,7 +92,7 @@ def test_setup():
 
 
 if __name__ == "__main__":
-    df_close_return = test_setup()
+    df_close_return = retrieve_data()
     print(df_close_return)
 
 

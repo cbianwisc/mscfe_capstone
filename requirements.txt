@@ -1,3 +1,6 @@
 requirements.txt file, 
-with specific packages using a “pip install -r requirements.txt” command, and 
+with specific packages using a ï¿½pip install -r requirements.txtï¿½ command, and 
 instructions how the program should be executed
+setuptools~=65.6.3
+pandas~=1.5.3
+numpy~=1.23.5
