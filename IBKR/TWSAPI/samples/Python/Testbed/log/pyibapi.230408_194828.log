@@ -1,0 +1,10 @@
+(MainThread) 230408_19:48:28.349 ERROR wrapper.py:57 ERROR -1 2104 Market data farm connection is OK:uscrypto
+(MainThread) 230408_19:48:28.352 ERROR wrapper.py:57 ERROR -1 2104 Market data farm connection is OK:usfarm.nj
+(MainThread) 230408_19:48:28.354 ERROR wrapper.py:57 ERROR -1 2104 Market data farm connection is OK:usfuture
+(MainThread) 230408_19:48:28.355 ERROR wrapper.py:57 ERROR -1 2104 Market data farm connection is OK:cashfarm
+(MainThread) 230408_19:48:28.356 ERROR wrapper.py:57 ERROR -1 2104 Market data farm connection is OK:usfarm
+(MainThread) 230408_19:48:28.358 ERROR wrapper.py:57 ERROR -1 2106 HMDS data farm connection is OK:ushmds.nj
+(MainThread) 230408_19:48:28.360 ERROR wrapper.py:57 ERROR -1 2106 HMDS data farm connection is OK:ushmds
+(MainThread) 230408_19:48:28.361 ERROR wrapper.py:57 ERROR -1 2158 Sec-def data farm connection is OK:secdefnj
+(MainThread) 230408_19:48:28.787 ERROR wrapper.py:57 ERROR 9003 322 Error processing request.-'cc' : cause - Maximum number of account summary requests exceeded; desubscribe to previous request first
+(MainThread) 230408_19:48:28.841 ERROR wrapper.py:57 ERROR 9004 322 Error processing request.-'cc' : cause - Maximum number of account summary requests exceeded; desubscribe to previous request first
