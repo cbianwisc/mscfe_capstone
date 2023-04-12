@@ -1,4 +1,5 @@
-# mscfe_capstone
+# MScFE_690_Capstone
+## Student Group 2834
 
 In addition to executable code this repo includes:
 
