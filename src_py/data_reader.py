@@ -36,52 +36,44 @@ def sort_by_time(df: pd.DataFrame) -> pd.DataFrame:
     return df.sort_values(by=['datetime']).copy(deep=True).reset_index()
 
 
-def pick_column(df: pd.DataFrame, column_name=None) -> pd.DataFrame:
+def pick_column(df: pd.DataFrame, column_names=None) -> pd.DataFrame:
     """
     pick only columns needed
     :param df: df with multiple columns
-    :param column_name: default to the column Close if not provided
+    :param column_names: default to the column Close if not provided
     :return: df with only datetime and columns in the column name list
     """
-    if column_name is None:
-        column_name = ['Close']
+    if column_names is None:
+        column_names = ['Close']
 
-    column_name = ['datetime'] + column_name
-    return df[column_name]
+    column_names = ['datetime'] + column_names
+    return df[column_names]
 
 
-def calculate_log_return(df: pd.DataFrame, column_name=None) -> pd.DataFrame:
+def calculate_log_return(df: pd.DataFrame, column_names=None) -> pd.DataFrame:
     """
     calculate logarithmic return, aka continuously compounded return
     :param df:
-    :param column_name: use all df columns if not provided
+    :param column_names: use all df columns if not provided
     :return: df with log return of each column
     """
-    if column_name is None:
-        column_name = df.columns.tolist()
+    if column_names is None:
+        column_names = df.columns.tolist()
 
-    for col in column_name:
+    df_ret = pd.DataFrame()
+    df_ret['datetime'] = df['datetime']
+
+    for col in column_names:
         if col == 'datetime':
             continue
-        series_curr = df[column_name]
+        series_curr = df[col]
         series_last = series_curr.shift(1)
-        series_divided = series_curr.divide(series_last, fill_value=0.0)
-        df[column_name + '_return'] = math.log(series_divided)
-    return df
+        series_divided = series_curr.div(series_last, fill_value=0.0)
+        df_ret[col + '_return'] = series_divided.map(lambda x: math.log(x))
+    return df_ret
 
 
-def time_splitting(df: pd.DataFrame, time:datetime.time) -> pd.DataFrame:
-    """
-    converting the
-    :param df:
-    :param time:
-    :return:
-    """
-    return df
-
-
-
-if __name__ == "__main__":
+def test_setup():
     curr_dir = os.getcwd()
     home_dir = os.path.dirname(curr_dir)
     datasets_dir = home_dir + '\\Datasets'
@@ -92,6 +84,11 @@ if __name__ == "__main__":
     df_time_sorted = sort_by_time(df_time_fixed)
     df_close_price = pick_column(df_time_sorted)
     df_close_return = calculate_log_return(df_close_price)
+    return df_close_return
+
+
+if __name__ == "__main__":
+    df_close_return = test_setup()
     print(df_close_return)
 
 
