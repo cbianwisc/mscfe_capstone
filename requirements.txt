@@ -1,0 +1,3 @@
+requirements.txt file, 
+with specific packages using a “pip install -r requirements.txt” command, and 
+instructions how the program should be executed
