@@ -6,6 +6,7 @@ import yfinance as yf
 from sklearn import preprocessing
 
 from src_py.data_reader import START_DATE, END_DATE
+from src_py.pca_analysis import pca_analysis
 
 
 def retreive_yfiance_data(tickers: []):
@@ -47,9 +48,13 @@ def standardize_data(df: pd.DataFrame):
     return df_scaled
 
 
-if __name__ == "__main__":
+def retrieve_input_data():
     df_yf = retreive_yfiance_data(['^VIX', '^VVIX', 'SPY', 'TQQQ', '^IXIC', 'NQ=F'])
     df_return = calculate_return_or_change(df_yf)
     df_not_empty = remove_empty_column(df_return)
-    df_standardized = standardize_data(df_not_empty)
-    print(df_standardized)
+    return standardize_data(df_not_empty)
+
+
+if __name__ == "__main__":
+    df_standardized = retrieve_input_data()
+    pca_analysis(df_standardized)
