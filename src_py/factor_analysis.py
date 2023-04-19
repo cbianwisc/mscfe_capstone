@@ -12,9 +12,13 @@ class FactorAnalysis(MainAnalysis):
         self._output_data = pd.DataFrame()
         self._combined_data = pd.DataFrame()
 
+    def get_input_data(self):
+        pass
+
     def preprocess_data(self):
         self._output_data = split_on_daily_basis(self._retrieved_data)
         self._combined_data = self._input_data.merge(self._output_data, on=['date'])
+
     def divide_data(self):
         kf = KFold(n_splits=10, random_state=233, shuffle=True)
         for X_train, X_test in kf.split(self._combined_data):
