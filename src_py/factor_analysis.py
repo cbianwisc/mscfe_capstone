@@ -33,5 +33,5 @@ class FactorAnalysis(MainAnalysis):
     def validate_model(self):
         pass
 
-    def test_model(self):
+    def back_test_model(self):
         pass
