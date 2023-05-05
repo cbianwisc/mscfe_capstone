@@ -6,7 +6,6 @@ import yfinance as yf
 from sklearn import preprocessing
 
 from src_py.data_reader import START_DATE, END_DATE
-from src_py.pca_analysis import pca_analysis
 
 
 def retreive_yfiance_data(tickers: []):
@@ -48,13 +47,21 @@ def standardize_data(df: pd.DataFrame):
     return df_scaled
 
 
+def convert_index_from_datetime_to_date(df: pd.DataFrame):
+    index_as_datetime = df.index
+    df.index = index_as_datetime.date
+    return df
+
+
 def retrieve_input_data():
     df_yf = retreive_yfiance_data(['^VIX', '^VVIX', 'SPY', 'TQQQ', '^IXIC', 'NQ=F'])
     df_return = calculate_return_or_change(df_yf)
     df_not_empty = remove_empty_column(df_return)
-    return standardize_data(df_not_empty)
+    df_standardized = standardize_data(df_not_empty)
+    df_index_converted = convert_index_from_datetime_to_date(df_standardized)
+    return df_index_converted
 
 
 if __name__ == "__main__":
-    df_standardized = retrieve_input_data()
-    pca_analysis(df_standardized)
+    df_retrieved = retrieve_input_data()
+    print(df_retrieved)

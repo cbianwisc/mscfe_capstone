@@ -27,6 +27,7 @@ def read_time_stamp(df: pd.DataFrame) -> pd.DataFrame:
     series_time_stamp = series_orig_time_stamp.map(lambda x: x.rstrip(' US/Eastern'))
     series_datetime = series_time_stamp.map(lambda x: datetime.datetime.strptime(x, '%Y%m%d %H:%M:%S'))
     df['datetime'] = series_datetime
+    df = df.drop(columns=['Time'])
     return df
 
 
@@ -36,7 +37,7 @@ def sort_by_time(df: pd.DataFrame) -> pd.DataFrame:
     :param df: unsorted df with datetime
     :return: sorted df
     """
-    return df.sort_values(by=['datetime']).copy(deep=True).reset_index()
+    return df.sort_values(by=['datetime']).copy(deep=True).reset_index().drop(columns=['index'])
 
 
 def pick_column(df: pd.DataFrame, column_names=None) -> pd.DataFrame:
@@ -85,17 +86,17 @@ def retrieve_data() -> pd.DataFrame:
     home_dir = os.path.dirname(curr_dir)
     datasets_dir = home_dir + '\\Datasets'
     one_yr_data_dir = datasets_dir + '\\1YearOfData'
-    one_yr_5m_data_dir = one_yr_data_dir + '\\QQQ_1Y_m05_TRADES.csv'
+    one_yr_5m_data_dir = one_yr_data_dir + '\\QQQ_1Y_h2_TRADES.csv'
     df_raw_data = read_data(one_yr_5m_data_dir)
     df_time_fixed = read_time_stamp(df_raw_data)
     df_time_sorted = sort_by_time(df_time_fixed)
-    df_close_price = pick_column(df_time_sorted)
-    df_close_return = calculate_log_return(df_close_price)
-    return df_close_return
+    return df_time_sorted
 
 
 if __name__ == "__main__":
-    df_close_return = retrieve_data()
+    df_data_retrieved = retrieve_data()
+    df_close_price = pick_column(df_data_retrieved)
+    df_close_return = calculate_log_return(df_close_price)
     print(df_close_return)
 
 

@@ -12,6 +12,8 @@ class MainAnalysis(ABC):
     """
     def __init__(self):
         self._retrieved_data = pd.DataFrame()
+        self._data_for_train = pd.DataFrame()
+        self._data_for_validate = pd.DataFrame()
 
     def retrieve_data(self):
         """
@@ -39,4 +41,10 @@ class MainAnalysis(ABC):
     def test_model(self):
         pass
 
-
+    def run_analysis(self):
+        self.retrieve_data()
+        self.preprocess_data()
+        self.divide_data()
+        self.train_model()
+        self.validate_model()
+        self.test_model()
