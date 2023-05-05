@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.decomposition import PCA
 
 from src_py.input_retriever import retrieve_input_data
@@ -8,12 +9,11 @@ PCA_EXPLAINED_VARIANCE_RATIO_CUTOFF = 0.95
 def pca_analysis(df):
     for i in range(len(df.columns)):
         pca = PCA(n_components=i)
-        # transpose so dimension reduction for each day
         pca.fit(df)
-        print(pca.singular_values_)
+        # print(pca.singular_values_)
         if sum(pca.explained_variance_ratio_) > PCA_EXPLAINED_VARIANCE_RATIO_CUTOFF:
             break
-    return pca.fit_transform(df)
+    return pd.DataFrame(pca.fit_transform(df), index=df.index)
 
 
 if __name__ == "__main__":

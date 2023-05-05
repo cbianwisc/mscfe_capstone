@@ -18,9 +18,17 @@ class LinearRegressionAnalysis(FactorAnalysis):
         y_train = self._data_for_train.copy()['overnight_jump']
         raw_reg = LinearRegression().fit(x_train, y_train)
         self._raw_coefficient = raw_reg.coef_
+        if all(abs(self._raw_coefficient <= COEFFICIENT_SIGNIFICANT_CUTOFF)):
+            print("None of the factors is significant: ", self._raw_coefficient)
+            exit()
+
         x_train_significant = self.filter_parameters(x_train, self._raw_coefficient)
         self._model = LinearRegression().fit(x_train_significant, y_train)
-        # print(main_reg.score(x_train_significant, y_train))
+        df_coef = pd.DataFrame({
+            'Factor': x_train_significant.columns,
+            'Coefficient': self._model.coef_
+        })
+        print(df_coef)
 
     def filter_parameters(self, df: pd.DataFrame, coefficient_list: []) -> pd.DataFrame:
         column_list = df.columns

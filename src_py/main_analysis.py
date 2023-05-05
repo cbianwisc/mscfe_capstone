@@ -38,7 +38,7 @@ class MainAnalysis(ABC):
         pass
 
     @abstractmethod
-    def test_model(self):
+    def back_test_model(self):
         pass
 
     def run_analysis(self):
@@ -47,4 +47,4 @@ class MainAnalysis(ABC):
         self.divide_data()
         self.train_model()
         self.validate_model()
-        self.test_model()
+        self.back_test_model()
