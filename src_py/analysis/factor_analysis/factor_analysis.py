@@ -1,9 +1,9 @@
 import pandas as pd
 from sklearn.model_selection import KFold
 
-from src_py.data_preprocessor_factor_analysis import generate_output_data
-from src_py.input_retriever import retrieve_input_data
-from src_py.main_analysis import MainAnalysis
+from src_py.data_retriever_and_processor.data_preprocessor_factor_analysis import generate_output_data
+from src_py.data_retriever_and_processor.input_retriever import retrieve_input_data
+from src_py.analysis.main_analysis import MainAnalysis
 
 
 class FactorAnalysis(MainAnalysis):

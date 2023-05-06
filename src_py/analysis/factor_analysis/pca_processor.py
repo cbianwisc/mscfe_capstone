@@ -1,7 +1,7 @@
 import pandas as pd
 from sklearn.decomposition import PCA
 
-from src_py.input_retriever import retrieve_input_data
+from src_py.data_retriever_and_processor.input_retriever import retrieve_input_data
 
 PCA_EXPLAINED_VARIANCE_RATIO_CUTOFF = 0.95
 

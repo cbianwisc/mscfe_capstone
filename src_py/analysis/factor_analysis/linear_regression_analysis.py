@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-from src_py.factor_analysis import FactorAnalysis
+from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 
 COEFFICIENT_SIGNIFICANT_CUTOFF = 0.05
 
