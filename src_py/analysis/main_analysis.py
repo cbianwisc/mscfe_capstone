@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from src_py import data_reader
+from src_py.data_retriever_and_processor import data_reader
 
 
 class MainAnalysis(ABC):

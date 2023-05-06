@@ -83,11 +83,11 @@ def retrieve_data() -> pd.DataFrame:
     :return: df containing return of the specified price column
     """
     curr_dir = os.getcwd()
-    home_dir = os.path.dirname(curr_dir)
+    home_dir = curr_dir[:curr_dir.index('mscfe_capstone') + len('mscfe_capstone')]
     datasets_dir = home_dir + '\\Datasets'
     one_yr_data_dir = datasets_dir + '\\1YearOfData'
-    one_yr_5m_data_dir = one_yr_data_dir + '\\QQQ_1Y_h2_TRADES.csv'
-    df_raw_data = read_data(one_yr_5m_data_dir)
+    one_yr_2h_data_dir = one_yr_data_dir + '\\QQQ_1Y_h2_TRADES.csv'
+    df_raw_data = read_data(one_yr_2h_data_dir)
     df_time_fixed = read_time_stamp(df_raw_data)
     df_time_sorted = sort_by_time(df_time_fixed)
     return df_time_sorted

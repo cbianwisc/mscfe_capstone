@@ -1,6 +1,5 @@
-import datetime
 import pandas as pd
-from src_py.data_reader import retrieve_data, pick_column, calculate_log_return
+from src_py.data_retriever_and_processor.data_reader import retrieve_data
 
 
 def split_on_daily_basis(df: pd.DataFrame) -> pd.DataFrame:

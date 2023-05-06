@@ -1,11 +1,9 @@
-import math
-
 import numpy as np
 import pandas as pd
 import yfinance as yf
 from sklearn import preprocessing
 
-from src_py.data_reader import START_DATE, END_DATE
+from src_py.data_retriever_and_processor.data_reader import START_DATE, END_DATE
 
 
 def retreive_yfiance_data(tickers: []):
