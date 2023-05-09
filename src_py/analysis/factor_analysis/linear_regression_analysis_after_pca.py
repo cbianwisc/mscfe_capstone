@@ -1,6 +1,6 @@
 from src_py.data_retriever_and_processor.input_retriever import retrieve_input_data
 from src_py.analysis.factor_analysis.linear_regression_analysis import LinearRegressionAnalysis
-from src_py.analysis.factor_analysis.pca_processor import pca_analysis
+from src_py.data_retriever_and_processor.pca_processor import pca_analysis
 
 
 class LinearRegressionAnalysisAfterPca(LinearRegressionAnalysis):

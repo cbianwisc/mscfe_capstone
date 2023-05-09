@@ -1,13 +1,13 @@
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+from sklearn import svm
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 
-COEFFICIENT_SIGNIFICANT_CUTOFF = 0.05
+COEFFICIENT_SIGNIFICANT_CUTOFF = 0.5
 
 
-class LinearRegressionAnalysis(FactorAnalysis):
+class SvmRegressionAnalysis(FactorAnalysis):
     def __init__(self):
         super().__init__()
         self._raw_coefficient = None
@@ -16,17 +16,17 @@ class LinearRegressionAnalysis(FactorAnalysis):
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         y_train = self._data_for_train.copy()['overnight_jump']
-        raw_reg = LinearRegression().fit(x_train, y_train)
+        raw_reg = svm.SVR(kernel='linear').fit(x_train, y_train)
         self._raw_coefficient = raw_reg.coef_
-        if all(abs(self._raw_coefficient) <= COEFFICIENT_SIGNIFICANT_CUTOFF):
-            print("None of the factors is significant: ", self._raw_coefficient, "\nAborting")
+        if all((abs(self._raw_coefficient) <= COEFFICIENT_SIGNIFICANT_CUTOFF).tolist()[0]):
+            print("None of the factors is significant: ", self._raw_coefficient)
             exit()
 
-        x_train_significant = self.filter_parameters(x_train, self._raw_coefficient)
-        self._model = LinearRegression().fit(x_train_significant, y_train)
+        x_train_significant = self.filter_parameters(x_train, self._raw_coefficient[0])
+        self._model = svm.SVR(kernel='linear').fit(x_train_significant, y_train)
         df_coef = pd.DataFrame({
             'Factor': x_train_significant.columns,
-            'Coefficient': self._model.coef_
+            'Coefficient': pd.Series(self._model.coef_[0])
         })
         print(df_coef)
 
@@ -38,7 +38,7 @@ class LinearRegressionAnalysis(FactorAnalysis):
     def validate_model(self):
         x_validate = self._data_for_validate.copy().drop(columns=['overnight_jump'])
         y_validate = self._data_for_validate.copy()['overnight_jump']
-        x_validate_filtered = self.filter_parameters(x_validate, self._raw_coefficient)
+        x_validate_filtered = self.filter_parameters(x_validate, self._raw_coefficient[0])
         r_score = self._model.score(x_validate_filtered, y_validate)
 
         y_pred = self._model.predict(x_validate_filtered)
@@ -48,6 +48,6 @@ class LinearRegressionAnalysis(FactorAnalysis):
 
 
 if __name__ == "__main__":
-    analysis = LinearRegressionAnalysis()
+    analysis = SvmRegressionAnalysis()
     analysis.run_analysis()
 
