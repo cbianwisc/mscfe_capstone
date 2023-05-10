@@ -10,7 +10,6 @@ from src_py.analysis.time_series_analysis.time_series_analysis import TimeSeries
 class RnnRegressionAnalysis(TimeSeriesAnalysis):
     def __init__(self):
         super().__init__()
-        self._raw_coefficient = None
         self._model = None
 
     def train_model(self):
