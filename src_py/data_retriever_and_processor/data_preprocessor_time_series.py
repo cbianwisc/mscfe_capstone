@@ -1,15 +1,17 @@
+import numpy as np
 import pandas as pd
 
 from src_py.data_retriever_and_processor.data_preprocessor_factor_analysis import split_on_daily_basis
-from src_py.data_retriever_and_processor.data_reader import retrieve_data
+from src_py.data_retriever_and_processor.data_reader import retrieve_data, calculate_log_return
 
 
 def prepare_daily_inputs(df):
-    df_daily_marked = split_on_daily_basis(df)
+    df_wap = df.copy()[['Wap', 'datetime']]
+    df_wap_log_return = calculate_log_return(df_wap, column_names=['Wap'])
+    df_daily_marked = split_on_daily_basis(df_wap_log_return)
     df_time_marked = mark_time_from_datetime(df_daily_marked)
-    df_wap = df_time_marked.copy()[['Wap', 'time', 'date']]
-    df_pivoted = df_wap.pivot(index='date', columns='time', values='Wap')
-    df_pivoted['date'] = df_pivoted.index
+    df_time_marked = df_time_marked.replace([np.inf, -np.inf], 0.0)
+    df_pivoted = df_time_marked.pivot(index='date', columns='time', values='Wap_return')
     return df_pivoted
 
 
