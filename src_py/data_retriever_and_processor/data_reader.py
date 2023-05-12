@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import datetime
 
-START_DATE = datetime.date(2022, 4, 7)
+START_DATE = datetime.date(2022, 4, 6)
 END_DATE = datetime.date(2023, 4, 6)
 
 
