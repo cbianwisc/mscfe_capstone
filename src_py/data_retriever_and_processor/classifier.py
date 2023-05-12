@@ -13,13 +13,13 @@ def classify_output_data(df):
     y = [0] * len(list_jump)
     for i in range(len(list_jump)):
         if math.isnan(list_jump[i]):
-            y[i] = 0
-        elif list_jump[i] < 1 - ALMOST_ZERO_THRESHOLD:
-            y[i] = -1
-        elif list_jump[i] > 1 + ALMOST_ZERO_THRESHOLD:
             y[i] = 1
-        else:
+        elif list_jump[i] < 1 - ALMOST_ZERO_THRESHOLD:
             y[i] = 0
+        elif list_jump[i] > 1 + ALMOST_ZERO_THRESHOLD:
+            y[i] = 2
+        else:
+            y[i] = 1
     df_ret = df.copy().drop(columns=['overnight_jump'])
     df_ret['overnight_jump'] = pd.Series(y, index=df_ret.index)
     return df_ret
