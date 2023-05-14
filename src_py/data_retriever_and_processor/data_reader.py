@@ -77,7 +77,7 @@ def calculate_log_return(df: pd.DataFrame, column_names=None) -> pd.DataFrame:
     return df_ret
 
 
-def retrieve_data() -> pd.DataFrame:
+def retrieve_data(years=None) -> pd.DataFrame:
     """
     retrieve data from given directory
     :return: df containing return of the specified price column
@@ -85,16 +85,21 @@ def retrieve_data() -> pd.DataFrame:
     curr_dir = os.getcwd()
     home_dir = curr_dir[:curr_dir.index('mscfe_capstone') + len('mscfe_capstone')]
     datasets_dir = home_dir + '\\Datasets'
-    one_yr_data_dir = datasets_dir + '\\1YearOfData'
-    one_yr_1h_data_dir = one_yr_data_dir + '\\QQQ_1Y_h1_TRADES.csv'
-    df_raw_data = read_data(one_yr_1h_data_dir)
+    if (years is not None) and (years == 5):
+        five_yr_data_dir = datasets_dir + '\\5YearsOfData'
+        five_yr_1h_data_dir = five_yr_data_dir + '\\QQQ_STK_SMART_USD_5Y_1h_ending_05052023.csv'
+        df_raw_data = read_data(five_yr_1h_data_dir)
+    else:
+        one_yr_data_dir = datasets_dir + '\\1YearOfData'
+        one_yr_1h_data_dir = one_yr_data_dir + '\\QQQ_1Y_h1_TRADES.csv'
+        df_raw_data = read_data(one_yr_1h_data_dir)
     df_time_fixed = read_time_stamp(df_raw_data)
     df_time_sorted = sort_by_time(df_time_fixed)
     return df_time_sorted
 
 
 if __name__ == "__main__":
-    df_data_retrieved = retrieve_data()
+    df_data_retrieved = retrieve_data(years=5)
     df_close_price = pick_column(df_data_retrieved)
     df_close_return = calculate_log_return(df_close_price)
     print(df_close_return)
