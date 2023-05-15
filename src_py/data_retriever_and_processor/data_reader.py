@@ -84,8 +84,12 @@ def retrieve_data(years=None) -> pd.DataFrame:
     datasets_dir = home_dir + '\\Datasets'
     if (years is not None) and (years == 5):
         five_yr_data_dir = datasets_dir + '\\5YearsOfData'
-        five_yr_1h_data_dir = five_yr_data_dir + '\\QQQ_STK_SMART_USD_5Y_20m_ending_05052023.csv'
-        df_raw_data = read_data(five_yr_1h_data_dir)
+        five_yr_20min_data_dir = five_yr_data_dir + '\\QQQ_STK_SMART_USD_5Y_20m_ending_05052023.csv'
+        df_raw_data = read_data(five_yr_20min_data_dir)
+    elif (years is not None) and (years == 4):
+        four_yr_data_dir = datasets_dir + '\\4YearsOfData'
+        four_yr_10min_data_dir = four_yr_data_dir + '\\QQQ_STK_SMART_USD_4Y_10m_ending_05052023.csv'
+        df_raw_data = read_data(four_yr_10min_data_dir)
     else:
         one_yr_data_dir = datasets_dir + '\\1YearOfData'
         one_yr_1h_data_dir = one_yr_data_dir + '\\QQQ_1Y_h1_TRADES.csv'
