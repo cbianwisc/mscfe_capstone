@@ -2,13 +2,14 @@ import pandas as pd
 from sklearn import svm
 from sklearn.metrics import balanced_accuracy_score, precision_score
 
+from src_py.analysis.combined_analysis import CombinedAnalysis
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 from src_py.data_retriever_and_processor.classifier import classify_output_data
 
 COEFFICIENT_SIGNIFICANT_CUTOFF = 0.5
 
 
-class SvmClassificationAnalysis(FactorAnalysis):
+class SvmClassificationAnalysis(CombinedAnalysis):
     def __init__(self):
         super().__init__()
         self._raw_coefficient = None

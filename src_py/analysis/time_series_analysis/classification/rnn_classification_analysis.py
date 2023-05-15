@@ -4,11 +4,11 @@ from sklearn.metrics import balanced_accuracy_score, precision_score
 from keras.models import Sequential
 from keras.layers import Dense, SimpleRNN, Dropout, Activation
 
-from src_py.analysis.time_series_analysis.time_series_analysis import TimeSeriesAnalysis
+from src_py.analysis.combined_analysis import CombinedAnalysis
 from src_py.data_retriever_and_processor.classifier import classify_output_data
 
 
-class RnnClassificationAnalysis(TimeSeriesAnalysis):
+class RnnClassificationAnalysis(CombinedAnalysis):
     def __init__(self):
         super().__init__()
         self._model = None

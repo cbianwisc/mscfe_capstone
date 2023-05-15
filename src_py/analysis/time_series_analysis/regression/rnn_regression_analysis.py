@@ -3,10 +3,10 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 from keras.models import Sequential
 from keras.layers import Dense, SimpleRNN, Dropout, Activation
 
-from src_py.analysis.time_series_analysis.time_series_analysis import TimeSeriesAnalysis
+from src_py.analysis.combined_analysis import CombinedAnalysis
 
 
-class RnnRegressionAnalysis(TimeSeriesAnalysis):
+class RnnRegressionAnalysis(CombinedAnalysis):
     def __init__(self):
         super().__init__()
         self._model = None

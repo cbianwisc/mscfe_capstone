@@ -5,8 +5,8 @@ from src_py.data_retriever_and_processor.pca_processor import pca_analysis
 
 class LinearRegressionAnalysisAfterPca(LinearRegressionAnalysis):
     def get_input_data(self):
-        raw_input_data = retrieve_input_data()
-        self._input_data = pca_analysis(raw_input_data)
+        super().get_input_data()
+        self._input_data = pca_analysis(self._input_data)
 
 
 if __name__ == "__main__":
