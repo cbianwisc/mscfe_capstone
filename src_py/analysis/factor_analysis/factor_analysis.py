@@ -1,4 +1,5 @@
 import pandas as pd
+from pandas._libs.tslibs.offsets import BDay
 from sklearn.model_selection import KFold
 
 from src_py.data_retriever_and_processor.data_preprocessor_factor_analysis import generate_output_data
@@ -14,7 +15,9 @@ class FactorAnalysis(MainAnalysis):
         self._combined_data = pd.DataFrame()
 
     def get_input_data(self):
-        self._input_data = retrieve_input_data()
+        start_date = self._retrieved_data['datetime'].iloc[0].date() - BDay(1)
+        end_date = self._retrieved_data['datetime'].iloc[-1].date()
+        self._input_data = retrieve_input_data(start_date, end_date)
 
     def preprocess_data(self):
         self.get_input_data()

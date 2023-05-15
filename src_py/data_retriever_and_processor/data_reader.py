@@ -3,9 +3,6 @@ import pandas as pd
 import os
 import datetime
 
-START_DATE = datetime.date(2022, 4, 6)
-END_DATE = datetime.date(2023, 4, 6)
-
 
 def read_data(raw_csv_dir: str) -> pd.DataFrame:
     """
