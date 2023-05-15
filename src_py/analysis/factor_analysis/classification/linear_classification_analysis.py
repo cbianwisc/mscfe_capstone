@@ -1,15 +1,16 @@
 import pandas as pd
 from sklearn import svm
+from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import balanced_accuracy_score, precision_score
 
 from src_py.analysis.combined_analysis import CombinedAnalysis
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 from src_py.data_retriever_and_processor.classifier import classify_output_data
 
-COEFFICIENT_SIGNIFICANT_CUTOFF = 0.05
+COEFFICIENT_SIGNIFICANT_CUTOFF = 0.5
 
 
-class SvmClassificationAnalysis(CombinedAnalysis):
+class LinearClassificationAnalysis(CombinedAnalysis):
     def __init__(self):
         super().__init__()
         self._raw_coefficient = None
@@ -18,14 +19,14 @@ class SvmClassificationAnalysis(CombinedAnalysis):
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         y_train = classify_output_data(self._data_for_train.copy())['overnight_jump']
-        raw_reg = svm.SVC(kernel='linear').fit(x_train, y_train)
+        raw_reg = SGDClassifier().fit(x_train, y_train)
         self._raw_coefficient = raw_reg.coef_
         if all((abs(self._raw_coefficient) <= COEFFICIENT_SIGNIFICANT_CUTOFF).tolist()[0]):
             print("None of the factors is significant: ", self._raw_coefficient)
             exit()
 
         x_train_significant = self.filter_parameters(x_train, self._raw_coefficient[0])
-        self._model = svm.SVC(kernel='linear').fit(x_train_significant, y_train)
+        self._model = SGDClassifier().fit(x_train_significant, y_train)
         df_coef = pd.DataFrame({
             'Factor': x_train_significant.columns,
             'Coefficient': pd.Series(self._model.coef_[0])
@@ -50,6 +51,6 @@ class SvmClassificationAnalysis(CombinedAnalysis):
 
 
 if __name__ == "__main__":
-    analysis = SvmClassificationAnalysis()
+    analysis = LinearClassificationAnalysis()
     analysis.run_analysis()
 
