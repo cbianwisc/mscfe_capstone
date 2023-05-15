@@ -29,7 +29,7 @@ def calculate_return_or_change(df: pd.DataFrame):
 def remove_empty_column(df: pd.DataFrame):
     df_ret = pd.DataFrame()
     for col in df.columns:
-        if ~(df[col] == 0).all():
+        if ~(df[col] == 0.0).all():
             df_ret[col] = df[col]
     return df_ret
 
