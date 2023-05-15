@@ -2,12 +2,12 @@ import pandas as pd
 from sklearn import svm
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
+from src_py.analysis.combined_analysis import CombinedAnalysis
 
 COEFFICIENT_SIGNIFICANT_CUTOFF = 0.5
 
 
-class SvmRegressionAnalysis(FactorAnalysis):
+class SvmRegressionAnalysis(CombinedAnalysis):
     def __init__(self):
         super().__init__()
         self._raw_coefficient = None

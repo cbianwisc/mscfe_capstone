@@ -12,6 +12,8 @@ def prepare_daily_inputs(df):
     df_time_marked = mark_time_from_datetime(df_daily_marked)
     df_time_marked = df_time_marked.replace([np.inf, -np.inf], 0.0)
     df_pivoted = df_time_marked.pivot(index='date', columns='time', values='Wap_return')
+    columns_list_in_datetime = df_pivoted.columns.tolist()
+    df_pivoted.columns = ['QQQ_' + str(x) for x in columns_list_in_datetime]
     return df_pivoted
 
 

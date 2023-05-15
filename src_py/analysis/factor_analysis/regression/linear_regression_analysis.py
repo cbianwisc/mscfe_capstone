@@ -2,12 +2,13 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
+from src_py.analysis.combined_analysis import CombinedAnalysis
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 
 COEFFICIENT_SIGNIFICANT_CUTOFF = 0.05
 
 
-class LinearRegressionAnalysis(FactorAnalysis):
+class LinearRegressionAnalysis(CombinedAnalysis):
     def __init__(self):
         super().__init__()
         self._raw_coefficient = None
