@@ -5,6 +5,7 @@ import pandas as pd
 from src_py.data_retriever_and_processor import data_reader
 
 YEARS_OF_DATA = 5
+FORWARD_TEST_DAYS = 50
 
 
 class MainAnalysis(ABC):
@@ -15,7 +16,8 @@ class MainAnalysis(ABC):
     def __init__(self):
         self._retrieved_data = pd.DataFrame()
         self._data_for_train = pd.DataFrame()
-        self._data_for_validate = pd.DataFrame()
+        self._data_for_back_test = pd.DataFrame()
+        self._data_for_forward_test = pd.DataFrame()
 
     def retrieve_data(self):
         """
@@ -36,11 +38,11 @@ class MainAnalysis(ABC):
         pass
 
     @abstractmethod
-    def validate_model(self):
+    def back_test_model(self):
         pass
 
     @abstractmethod
-    def back_test_model(self):
+    def forward_test_model(self):
         pass
 
     def run_analysis(self):
@@ -48,5 +50,5 @@ class MainAnalysis(ABC):
         self.preprocess_data()
         self.divide_data()
         self.train_model()
-        self.validate_model()
         self.back_test_model()
+        self.forward_test_model()

@@ -36,9 +36,9 @@ class SvmClassificationAnalysis(FactorAnalysis):
         coefficient_significant = column_list[abs(coefficient_list) > COEFFICIENT_SIGNIFICANT_CUTOFF]
         return df.copy()[coefficient_significant]
 
-    def validate_model(self):
-        x_validate = self._data_for_validate.copy().drop(columns=['overnight_jump'])
-        y_validate = classify_output_data(self._data_for_validate.copy())['overnight_jump']
+    def back_test_model(self):
+        x_validate = self._data_for_back_test.copy().drop(columns=['overnight_jump'])
+        y_validate = classify_output_data(self._data_for_back_test.copy())['overnight_jump']
         x_validate_filtered = self.filter_parameters(x_validate, self._raw_coefficient[0])
         score = self._model.score(x_validate_filtered, y_validate)
 
