@@ -30,12 +30,12 @@ class RnnClassificationAnalysis(TimeSeriesAnalysis):
         regressor.add(Dropout(0.2))
         regressor.add(Dense(units=3))
         regressor.add(Activation("softmax"))
-        regressor.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+        regressor.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['categorical_accuracy'])
         return regressor
 
-    def validate_model(self):
-        x_validate = self._data_for_validate.copy().drop(columns=['overnight_jump'])
-        y_validate = classify_output_data(self._data_for_validate.copy())['overnight_jump']
+    def back_test_model(self):
+        x_validate = self._data_for_back_test.copy().drop(columns=['overnight_jump'])
+        y_validate = classify_output_data(self._data_for_back_test.copy())['overnight_jump']
         x_validate = x_validate.fillna(0.0)
         x_validate = np.reshape(x_validate, (x_validate.shape[0], x_validate.shape[1], 1))
 

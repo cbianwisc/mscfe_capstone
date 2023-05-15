@@ -20,9 +20,9 @@ class NeuralNetworkClassificationAnalysis(FactorAnalysis):
         clf.fit(x_train, y_train)
         self._model = clf
 
-    def validate_model(self):
-        x_validate = self._data_for_validate.copy().drop(columns=['overnight_jump'])
-        y_validate = classify_output_data(self._data_for_validate.copy())['overnight_jump']
+    def back_test_model(self):
+        x_validate = self._data_for_back_test.copy().drop(columns=['overnight_jump'])
+        y_validate = classify_output_data(self._data_for_back_test.copy())['overnight_jump']
         score = self._model.score(x_validate, y_validate)
 
         y_pred = self._model.predict(x_validate)

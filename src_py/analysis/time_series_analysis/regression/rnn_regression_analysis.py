@@ -31,9 +31,9 @@ class RnnRegressionAnalysis(TimeSeriesAnalysis):
         regressor.compile(optimizer='adam', loss='mean_squared_error')
         return regressor
 
-    def validate_model(self):
-        x_validate = self._data_for_validate.copy().drop(columns=['overnight_jump'])
-        y_validate = self._data_for_validate.copy()['overnight_jump']
+    def back_test_model(self):
+        x_validate = self._data_for_back_test.copy().drop(columns=['overnight_jump'])
+        y_validate = self._data_for_back_test.copy()['overnight_jump']
         x_validate = x_validate.fillna(0.0)
         y_validate = y_validate.fillna(0.0)
         x_validate = np.reshape(x_validate, (x_validate.shape[0], x_validate.shape[1], 1))
