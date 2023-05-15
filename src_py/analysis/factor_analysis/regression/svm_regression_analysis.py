@@ -4,7 +4,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 
 from src_py.analysis.combined_analysis import CombinedAnalysis
 
-COEFFICIENT_SIGNIFICANT_CUTOFF = 0.5
+COEFFICIENT_SIGNIFICANT_CUTOFF = 0.01
 
 
 class SvmRegressionAnalysis(CombinedAnalysis):

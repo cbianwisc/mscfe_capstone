@@ -18,14 +18,14 @@ class SvmClassificationAnalysis(CombinedAnalysis):
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         y_train = classify_output_data(self._data_for_train.copy())['overnight_jump']
-        raw_reg = svm.SVC(kernel='linear').fit(x_train, y_train)
+        raw_reg = svm.SVC(kernel='linear', class_weight='balanced').fit(x_train, y_train)
         self._raw_coefficient = raw_reg.coef_
         if all((abs(self._raw_coefficient) <= COEFFICIENT_SIGNIFICANT_CUTOFF).tolist()[0]):
             print("None of the factors is significant: ", self._raw_coefficient)
             exit()
 
         x_train_significant = self.filter_parameters(x_train, self._raw_coefficient[0])
-        self._model = svm.SVC(kernel='linear').fit(x_train_significant, y_train)
+        self._model = svm.SVC(kernel='linear', class_weight='balanced').fit(x_train_significant, y_train)
         df_coef = pd.DataFrame({
             'Factor': x_train_significant.columns,
             'Coefficient': pd.Series(self._model.coef_[0])

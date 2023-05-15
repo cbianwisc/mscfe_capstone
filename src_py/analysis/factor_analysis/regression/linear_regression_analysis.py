@@ -5,7 +5,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 from src_py.analysis.combined_analysis import CombinedAnalysis
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 
-COEFFICIENT_SIGNIFICANT_CUTOFF = 0.05
+COEFFICIENT_SIGNIFICANT_CUTOFF = 0.1
 
 
 class LinearRegressionAnalysis(CombinedAnalysis):
