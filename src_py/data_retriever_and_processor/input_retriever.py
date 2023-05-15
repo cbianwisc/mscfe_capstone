@@ -1,13 +1,13 @@
+import datetime
+
 import numpy as np
 import pandas as pd
 import yfinance as yf
 from sklearn import preprocessing
 
-from src_py.data_retriever_and_processor.data_reader import START_DATE, END_DATE
 
-
-def retreive_yfiance_data(tickers: []):
-    df_yf = yf.download(tickers, start=START_DATE, end=END_DATE)
+def retreive_yfiance_data(tickers: [], start_date: datetime.date, end_date: datetime.date):
+    df_yf = yf.download(tickers, start=start_date, end=end_date)
     return df_yf
 
 
@@ -51,8 +51,10 @@ def convert_index_from_datetime_to_date(df: pd.DataFrame):
     return df
 
 
-def retrieve_input_data():
-    df_yf = retreive_yfiance_data(['^VIX', '^VVIX', 'SPY', 'TQQQ', '^IXIC', 'NQ=F'])
+def retrieve_input_data(start_date: datetime.date, end_date: datetime.date):
+    df_yf = retreive_yfiance_data(['^VIX', '^VVIX', 'SPY', 'TQQQ', '^IXIC', 'NQ=F'],
+                                  start_date=start_date,
+                                  end_date=end_date)
     df_return = calculate_return_or_change(df_yf)
     df_not_empty = remove_empty_column(df_return)
     df_standardized = standardize_data(df_not_empty)
@@ -61,5 +63,5 @@ def retrieve_input_data():
 
 
 if __name__ == "__main__":
-    df_retrieved = retrieve_input_data()
+    df_retrieved = retrieve_input_data(datetime.date(2018, 5, 7), datetime.date(2023, 5, 5))
     print(df_retrieved)

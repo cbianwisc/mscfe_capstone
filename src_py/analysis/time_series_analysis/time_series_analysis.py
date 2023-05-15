@@ -1,5 +1,4 @@
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
-from src_py.analysis.main_analysis import MainAnalysis
 from src_py.data_retriever_and_processor.data_preprocessor_time_series import prepare_daily_inputs
 
 

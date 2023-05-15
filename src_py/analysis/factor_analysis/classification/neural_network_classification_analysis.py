@@ -1,5 +1,3 @@
-import pandas as pd
-from sklearn import svm
 from sklearn.metrics import balanced_accuracy_score, precision_score
 from sklearn.neural_network import MLPClassifier
 

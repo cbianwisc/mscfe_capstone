@@ -4,6 +4,8 @@ import pandas as pd
 
 from src_py.data_retriever_and_processor import data_reader
 
+YEARS_OF_DATA = 5
+
 
 class MainAnalysis(ABC):
     """
@@ -19,7 +21,7 @@ class MainAnalysis(ABC):
         """
         retrieve data, currently set to point to an existing csv file in repo
         """
-        self._retrieved_data = data_reader.retrieve_data()
+        self._retrieved_data = data_reader.retrieve_data(YEARS_OF_DATA)
 
     @abstractmethod
     def preprocess_data(self):
