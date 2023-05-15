@@ -14,9 +14,9 @@ def classify_output_data(df):
     for i in range(len(list_jump)):
         if math.isnan(list_jump[i]):
             y[i] = 1
-        elif list_jump[i] < 1 - ALMOST_ZERO_THRESHOLD:
+        elif list_jump[i] < 0.0 - ALMOST_ZERO_THRESHOLD:
             y[i] = 0
-        elif list_jump[i] > 1 + ALMOST_ZERO_THRESHOLD:
+        elif list_jump[i] > 0.0 + ALMOST_ZERO_THRESHOLD:
             y[i] = 2
         else:
             y[i] = 1

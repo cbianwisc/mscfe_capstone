@@ -12,9 +12,14 @@ def prepare_daily_inputs(df):
     df_time_marked = mark_time_from_datetime(df_daily_marked)
     df_time_marked = df_time_marked.replace([np.inf, -np.inf], 0.0)
     df_pivoted = df_time_marked.pivot(index='date', columns='time', values='Wap_return')
+    df_pivoted = df_pivoted.fillna(0.0)
+    # pick only full hour columns, ie. drop columns like 9:20 am
+    # except within the last 2 hours, ie. keep columns like 6:20 pm
     columns_list_in_datetime = df_pivoted.columns.tolist()
-    df_pivoted.columns = ['QQQ_' + str(x) for x in columns_list_in_datetime]
-    return df_pivoted
+    columns_to_use = [x for x in columns_list_in_datetime if (x.minute == 0 or x.hour >= 18)]
+    df_pivoted_shortlisted = df_pivoted[columns_to_use]
+    df_pivoted_shortlisted.columns = ['QQQ_' + str(x) for x in df_pivoted_shortlisted.columns.tolist()]
+    return df_pivoted_shortlisted
 
 
 def mark_time_from_datetime(df: pd.DataFrame) -> pd.DataFrame:
