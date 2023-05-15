@@ -11,7 +11,7 @@ class GruClassificationAnalysis(RnnClassificationAnalysis):
         regressor.add(Dropout(0.2))
         regressor.add(Dense(units=3))
         regressor.add(Activation("softmax"))
-        regressor.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['sparse_categorical_accuracy'])
+        regressor.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
         return regressor
 
 

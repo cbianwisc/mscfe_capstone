@@ -84,7 +84,7 @@ def retrieve_data(years=None) -> pd.DataFrame:
     datasets_dir = home_dir + '\\Datasets'
     if (years is not None) and (years == 5):
         five_yr_data_dir = datasets_dir + '\\5YearsOfData'
-        five_yr_1h_data_dir = five_yr_data_dir + '\\QQQ_STK_SMART_USD_5Y_20m_ending_05052023.csv'
+        five_yr_1h_data_dir = five_yr_data_dir + '\\QQQ_STK_SMART_USD_5Y_1h_ending_05052023.csv'
         df_raw_data = read_data(five_yr_1h_data_dir)
     else:
         one_yr_data_dir = datasets_dir + '\\1YearOfData'
