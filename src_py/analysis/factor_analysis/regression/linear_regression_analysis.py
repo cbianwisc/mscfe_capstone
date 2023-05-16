@@ -9,11 +9,6 @@ COEFFICIENT_SIGNIFICANT_CUTOFF = 0.1
 
 
 class LinearRegressionAnalysis(CombinedAnalysis):
-    def __init__(self):
-        super().__init__()
-        self._raw_coefficient = None
-        self._model = None
-
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         y_train = self._data_for_train.copy()['overnight_jump']

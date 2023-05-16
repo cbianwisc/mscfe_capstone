@@ -9,10 +9,6 @@ from src_py.data_retriever_and_processor.classifier import classify_output_data
 
 
 class RnnClassificationAnalysis(CombinedAnalysis):
-    def __init__(self):
-        super().__init__()
-        self._model = None
-
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         x_train = x_train.fillna(0.0)

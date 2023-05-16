@@ -3,6 +3,7 @@ import pandas as pd
 
 from src_py.data_retriever_and_processor.data_preprocessor_factor_analysis import split_on_daily_basis
 from src_py.data_retriever_and_processor.data_reader import retrieve_data, calculate_log_return
+from src_py.data_retriever_and_processor.input_retriever import standardize_data
 
 
 def prepare_daily_inputs(df):
@@ -19,7 +20,8 @@ def prepare_daily_inputs(df):
     columns_to_use = [x for x in columns_list_in_datetime if (x.minute == 0 or x.hour >= 18)]
     df_pivoted_shortlisted = df_pivoted[columns_to_use]
     df_pivoted_shortlisted.columns = ['QQQ_' + str(x) for x in df_pivoted_shortlisted.columns.tolist()]
-    return df_pivoted_shortlisted
+    df_standardized = standardize_data(df_pivoted_shortlisted)
+    return df_standardized
 
 
 def mark_time_from_datetime(df: pd.DataFrame) -> pd.DataFrame:

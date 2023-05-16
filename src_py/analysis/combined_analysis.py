@@ -5,6 +5,7 @@ from src_py.data_retriever_and_processor.data_reader_vix import prepare_daily_in
 
 
 class CombinedAnalysis(FactorAnalysis):
+
     def get_input_data(self):
         super().get_input_data()
         df_daily_inputs = prepare_daily_inputs(self._retrieved_data)

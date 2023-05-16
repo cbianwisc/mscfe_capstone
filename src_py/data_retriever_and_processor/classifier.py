@@ -2,10 +2,9 @@ import math
 
 import pandas as pd
 
+from src_py.analysis.main_analysis import ALMOST_ZERO_THRESHOLD
 from src_py.data_retriever_and_processor.data_preprocessor_factor_analysis import generate_output_data
 from src_py.data_retriever_and_processor.data_reader import retrieve_data
-
-ALMOST_ZERO_THRESHOLD = 0.01
 
 
 def classify_output_data(df):

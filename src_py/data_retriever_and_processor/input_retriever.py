@@ -1,4 +1,5 @@
 import datetime
+import math
 
 import numpy as np
 import pandas as pd
@@ -14,12 +15,10 @@ def retreive_yfiance_data(tickers: [], start_date: datetime.date, end_date: date
 def calculate_return_or_change(df: pd.DataFrame):
     df_ret = pd.DataFrame()
     for col in df.columns:
-        df_col = df[col[0]]
-        for ticker in df_col.columns:
-            series_curr = df_col[ticker]
-            series_last = series_curr.shift(1)
-            series_change = series_curr.div(series_last, fill_value=0.0)
-            df_ret[ticker + '_' + col[0] + '_change'] = series_change - 1
+        series_curr = df[col]
+        series_last = series_curr.shift(1)
+        series_change = series_curr.div(series_last, fill_value=1.0)
+        df_ret[col + '_change'] = series_change.map(lambda x: math.log(x))
     df_ret = df_ret.iloc[1:, :].copy()
     df_ret = df_ret.fillna(0.0)
     df_ret = df_ret.replace([np.inf, -np.inf], 0.0)
@@ -27,10 +26,11 @@ def calculate_return_or_change(df: pd.DataFrame):
 
 
 def remove_empty_column(df: pd.DataFrame):
+    df = df.fillna(method='ffill')
     df_ret = pd.DataFrame()
     for col in df.columns:
         if ~(df[col] == 0.0).all():
-            df_ret[col] = df[col]
+            df_ret[col[1] + '_' + col[0]] = df[col]
     return df_ret
 
 
@@ -55,9 +55,9 @@ def retrieve_input_data(start_date: datetime.date, end_date: datetime.date):
     df_yf = retreive_yfiance_data(['^VIX', '^VVIX', 'SPY', 'TQQQ', '^IXIC', 'NQ=F'],
                                   start_date=start_date,
                                   end_date=end_date)
-    df_return = calculate_return_or_change(df_yf)
-    df_not_empty = remove_empty_column(df_return)
-    df_standardized = standardize_data(df_not_empty)
+    df_not_empty = remove_empty_column(df_yf)
+    df_return = calculate_return_or_change(df_not_empty)
+    df_standardized = standardize_data(df_return)
     df_index_converted = convert_index_from_datetime_to_date(df_standardized)
     return df_index_converted
 

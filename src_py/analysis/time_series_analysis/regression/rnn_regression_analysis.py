@@ -7,10 +7,6 @@ from src_py.analysis.combined_analysis import CombinedAnalysis
 
 
 class RnnRegressionAnalysis(CombinedAnalysis):
-    def __init__(self):
-        super().__init__()
-        self._model = None
-
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         y_train = self._data_for_train.copy()['overnight_jump']
