@@ -6,15 +6,10 @@ from src_py.analysis.combined_analysis import CombinedAnalysis
 from src_py.analysis.factor_analysis.factor_analysis import FactorAnalysis
 from src_py.data_retriever_and_processor.classifier import classify_output_data
 
-COEFFICIENT_SIGNIFICANT_CUTOFF = 0.05
+COEFFICIENT_SIGNIFICANT_CUTOFF = 0.5
 
 
 class SvmClassificationAnalysis(CombinedAnalysis):
-    def __init__(self):
-        super().__init__()
-        self._raw_coefficient = None
-        self._model = None
-
     def train_model(self):
         x_train = self._data_for_train.copy().drop(columns=['overnight_jump'])
         y_train = classify_output_data(self._data_for_train.copy())['overnight_jump']

@@ -7,6 +7,7 @@ import pandas as pd
 from src_py.data_retriever_and_processor.data_preprocessor_factor_analysis import split_on_daily_basis
 from src_py.data_retriever_and_processor.data_preprocessor_time_series import mark_time_from_datetime
 from src_py.data_retriever_and_processor.data_reader import read_data, calculate_log_return
+from src_py.data_retriever_and_processor.input_retriever import standardize_data
 
 
 def read_vix_data(years=None):
@@ -66,6 +67,7 @@ def prepare_daily_inputs_vix(years):
     df = filter_only_early_morning_returns(df)
     df = reformat_daily_inputs_vix((df))
     df = combine_columns(df)
+    df = standardize_data(df)
     return df
 
 

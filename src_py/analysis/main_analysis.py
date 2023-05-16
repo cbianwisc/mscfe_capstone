@@ -6,6 +6,7 @@ from src_py.data_retriever_and_processor import data_reader
 
 YEARS_OF_DATA = 5
 FORWARD_TEST_DAYS = 50
+ALMOST_ZERO_THRESHOLD = 0.01
 
 
 class MainAnalysis(ABC):
@@ -18,6 +19,8 @@ class MainAnalysis(ABC):
         self._data_for_train = pd.DataFrame()
         self._data_for_back_test = pd.DataFrame()
         self._data_for_forward_test = pd.DataFrame()
+        self._model = None
+        self._raw_coefficient = [0]
 
     def retrieve_data(self):
         """
