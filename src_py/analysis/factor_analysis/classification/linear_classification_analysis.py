@@ -48,4 +48,3 @@ class LinearClassificationAnalysis(CombinedAnalysis):
 if __name__ == "__main__":
     analysis = LinearClassificationAnalysis()
     analysis.run_analysis()
-

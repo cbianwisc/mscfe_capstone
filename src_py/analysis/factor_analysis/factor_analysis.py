@@ -89,16 +89,81 @@ class FactorAnalysis(MainAnalysis):
             pass
 
     def forward_test_classification(self, classification_pred):
+        # classification_pred = classification_pred[classification_pred.index.isin(self._actual_for_forward_test.index)]
+        classification_pred = classification_pred[:-1]
         before_jump_actual = self._actual_for_forward_test['before_jump_actual']
         after_jump_actual = self._actual_for_forward_test['after_jump_actual']
         p_and_l_when_predict_up = after_jump_actual - before_jump_actual
         p_and_l_when_predict_down = before_jump_actual - after_jump_actual
-        net_profit = pd.Series(np.where(classification_pred == 0, p_and_l_when_predict_down, 0.0))
-        net_profit = pd.Series(np.where(classification_pred == 2, p_and_l_when_predict_up, net_profit))
-
-        print(sum(net_profit))
+        daily_net_profit = pd.Series(np.where(classification_pred == 0, p_and_l_when_predict_down, 0.0))
+        daily_net_profit = pd.Series(np.where(classification_pred == 2, p_and_l_when_predict_up, daily_net_profit))
+        
+        net_profit = self.net_profit(daily_net_profit)
+        profit_factor = self.profit_factor(daily_net_profit)
+        win_ratio = self.win_ratio(daily_net_profit)
+        average_winner = self.average_winner(daily_net_profit)
+        average_loser = self.average_loser(daily_net_profit)
+        expected_value = self.expected_value(daily_net_profit)
+        expectation = self.expectation(daily_net_profit)
+        biggest_winner = self.biggest_winner(daily_net_profit)
+        biggest_loser = self.biggest_loser(daily_net_profit)
+        winning_streak = self.winning_streak(daily_net_profit)
         pass
 
+    def net_profit(self, daily_net_profit):
+        return sum(daily_net_profit)
+
+    def profit_factor(self, daily_net_profit):
+        gross_profits = sum(pd.Series(np.where(daily_net_profit >= 0.0, daily_net_profit, 0.0)))
+        gross_loss = 0 - sum(pd.Series(np.where(daily_net_profit < 0.0, daily_net_profit, 0.0)))
+        return gross_profits / gross_loss
+
+    def win_ratio(self, daily_net_profit):
+        num_win = sum(pd.Series(np.where(daily_net_profit >= 0.0, 1.0, 0.0)))
+        num_lose = sum(pd.Series(np.where(daily_net_profit < 0.0, 1.0, 0.0)))
+        return num_win / (num_lose + num_win)
+
+    def average_winner(self, daily_net_profit):
+        gross_profits = sum(pd.Series(np.where(daily_net_profit > 0.0, daily_net_profit, 0.0)))
+        num_win = sum(pd.Series(np.where(daily_net_profit >= 0.0, 1.0, 0.0)))
+        return gross_profits / num_win
+
+    def average_loser(self, daily_net_profit):
+        gross_loss = 0 - sum(pd.Series(np.where(daily_net_profit < 0.0, daily_net_profit, 0.0)))
+        num_lose = sum(pd.Series(np.where(daily_net_profit < 0.0, 1.0, 0.0)))
+        return gross_loss / num_lose
+
+    def expected_value(self, daily_net_profit):
+        win_ratio = self.win_ratio(daily_net_profit)
+        lose_ratio = 1.0 - win_ratio
+        average_winner = self.average_winner(daily_net_profit)
+        average_loser = self.average_loser(daily_net_profit)
+        return (win_ratio * average_winner) - (lose_ratio * average_loser)
+
+    def expectation(self, daily_net_profit):
+        expected_value = self.expected_value(daily_net_profit)
+        average_loser = self.average_loser(daily_net_profit)
+        return expected_value / average_loser
+
+    def biggest_winner(self, daily_net_profit):
+        return max(daily_net_profit)
+
+    def biggest_loser(self, daily_net_profit):
+        return min(daily_net_profit)
+
+    def winning_streak(self, daily_net_profit):
+        wins = pd.Series(np.where(daily_net_profit >= 0.0, 1.0, 0.0))
+        wins_shift = wins.shift(-1)
+        wins_start = pd.Series(np.where(wins_shift == 0.0, wins, 0.0))
+        wins_streak_id = wins_start.cumsum()
+        wins_streak = wins_streak_id.groupby(wins_streak_id).cumcount() + 1
+        return max(wins_streak)
+
+    def losing_streak(self, daily_net_profit):
+        loses_start = daily_net_profit.ne(daily_net_profit.shift())
+        wins_streak_id = wins_start.cumsum()
+        wins_streak = wins_streak_id.cumcount() + 1
+        return max(wins_streak)
     def filter_parameters(self, df, coef_list):
         # overwritten by inheritance
         return df
