@@ -7,6 +7,7 @@ from src_py.data_retriever_and_processor import data_reader
 YEARS_OF_DATA = 5
 FORWARD_TEST_DAYS = 50
 ALMOST_ZERO_THRESHOLD = 0.01
+INPUT_PICKER = [False, True, False]
 
 
 class MainAnalysis(ABC):
